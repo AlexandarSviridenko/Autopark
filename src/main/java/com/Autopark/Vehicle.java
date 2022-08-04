@@ -199,7 +199,7 @@ public class Vehicle {
     @Override
     public String toString() {
         return type + "," + modelName + "," + registrationNumber + "," + weight + "," + manufactureYear + ","
-                + mileage + "," + color + "," /*+ volumeTank + ","*/ + getCalcTaxPerMonth();
+                + mileage + "," + color + "," /*+ volumeTank + ","*/ + getCalcTaxPerMonth() + getSumOfBrokenParts();
 
     }
 
