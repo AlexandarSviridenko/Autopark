@@ -4,6 +4,7 @@ import com.Autopark.Engine.DieselEngine;
 import com.Autopark.Engine.ElectricalEngine;
 import com.Autopark.Engine.GasolineEngine;
 import com.Autopark.Engine.Startable;
+import com.Autopark.Exception.NotFindTypeById;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
 
@@ -240,12 +241,17 @@ public class ParserVehicleFromFile {
     }
 
     private VehicleType getTypeById(int typeId) {
-        for (VehicleType type : loadTypes()) {
-            if (type.getId() == typeId) {
-                return type;
+        try {
+            for (VehicleType type : loadTypes()) {
+                if (type.getId() == typeId) {
+                    return type;
+                }
             }
+            throw new NotFindTypeById("Not find type by id: " + typeId);
+        } catch (NotFindTypeById e) {
+            e.printStackTrace();
         }
-        throw new NoSuchElementException();
+        return null;
     }
 
     private Vehicle getVehicleById(int id) {
@@ -260,29 +266,31 @@ public class ParserVehicleFromFile {
     private Startable createEngine(String[] params, int order) {
         String engineStr = params[order];
 
-        if (engineStr.equalsIgnoreCase("Electrical")) {
+        switch (engineStr) {
+            case "Electrical":
+                double batterySize = Double.parseDouble(params[order + 1]);
+                double consumption = Double.parseDouble(params[order + 2]);
 
-            double batterySize = Double.parseDouble(params[order + 1]);
-            double consumption = Double.parseDouble(params[order + 2]);
+                return new ElectricalEngine(batterySize, consumption);
+            case "Diesel":
+                double engineCapacity = Double.parseDouble(params[order + 1]);
+                double fuelConsumptionPer100 = Double.parseDouble(params[order + 2]);
+                double fuelTankCapacity = Double.parseDouble(params[order + 3]);
 
-            return new ElectricalEngine(batterySize, consumption);
-        } else if (engineStr.equalsIgnoreCase("Diesel")) {
+                return new DieselEngine(engineCapacity, fuelConsumptionPer100, fuelTankCapacity);
 
-            double engineCapacity = Double.parseDouble(params[order + 1]);
-            double fuelConsumptionPer100 = Double.parseDouble(params[order + 2]);
-            double fuelTankCapacity = Double.parseDouble(params[order + 3]);
+            case "Gasoline":
 
-            return new DieselEngine(engineCapacity, fuelConsumptionPer100, fuelTankCapacity);
-        } else if (engineStr.equalsIgnoreCase("Gasoline")) {
+                engineCapacity = Double.parseDouble(params[order + 1]);
+                fuelConsumptionPer100 = Double.parseDouble(params[order + 2]);
+                fuelTankCapacity = Double.parseDouble(params[order + 3]);
 
-            double engineCapacity = Double.parseDouble(params[order + 1]);
-            double fuelConsumptionPer100 = Double.parseDouble(params[order + 2]);
-            double fuelTankCapacity = Double.parseDouble(params[order + 3]);
+                return new GasolineEngine(engineCapacity, fuelConsumptionPer100, fuelTankCapacity);
 
-            return new GasolineEngine(engineCapacity, fuelConsumptionPer100, fuelTankCapacity);
+            default:
+                throw new IllegalArgumentException("Name of engine: " + engineStr);
+
         }
-
-        throw new IllegalArgumentException("Name of engine: " + engineStr);
     }
 
     private double countTotal() {
