@@ -7,6 +7,9 @@ import com.Autopark.Engine.GasolineEngine;
 public class TechnicalSpecialist {
     public static final int LOWER_LIMIT_MANUFACTURE_YEAR = 1886;
 
+    public TechnicalSpecialist() {
+    }
+
     static public boolean validateManufactureYear(int manufactureYear) {
         if (manufactureYear >= LOWER_LIMIT_MANUFACTURE_YEAR) {
             return true;
@@ -94,6 +97,7 @@ public class TechnicalSpecialist {
     static public boolean validateModelName(String name) {
         return name != null && !name.equals("");
     }
+
     public static boolean validateGasolineEngine(GasolineEngine engine) {
         if (engine == null) {
             return false;
