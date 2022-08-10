@@ -1,36 +1,42 @@
 package com.Autopark;
 
-import com.Autopark.Engine.DieselEngine;
-import com.Autopark.Engine.ElectricalEngine;
-import com.Autopark.Engine.GasolineEngine;
+import com.Autopark.Auto.VehicleCollection;
 import com.Autopark.infrastructure.core.impl.ApplicationContext;
-import com.Autopark.utils.VehicleUtils;
+import com.Autopark.parser.ParserVehicleFromFile;
+import com.Autopark.parser.ParserVehicleInterface;
+import com.Autopark.repairAuto.BadMechanicService;
+import com.Autopark.repairAuto.Fixer;
+import com.Autopark.repairAuto.MechanicService;
+import com.Autopark.repairAuto.Workroom;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.Autopark.utils.VehicleUtils.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Main {
 
     public static void main(String[] args) {
-        Map<Class<?>, Class<?>> interfaceToImplementation = initInterfaceToImplementationMechanicService();
-        ApplicationContext context = new ApplicationContext("src/main/java/com/Autopark", interfaceToImplementation);
+        Map<Class<?>, Class<?>> interfaceToImplementation = initInterfaceToImplementation();
+        ApplicationContext context = new ApplicationContext("com.Autopark", interfaceToImplementation);
+
         VehicleCollection vehicleCollection = context.getObject(VehicleCollection.class);
         Workroom workroom = context.getObject(Workroom.class);
+
+        printRents(vehicleCollection);
         workroom.checkAllVehicles(vehicleCollection.getVehicles());
     }
 
-    private static Map<Class<?>, Class<?>> initInterfaceToImplementationBadMechanicService() {
+    private static Map<Class<?>, Class<?>> initInterfaceToImplementation() {
         Map<Class<?>, Class<?>> map = new HashMap<>();
-        map.put(Fixer.class, BadMechanicService.class);
+        map.put(Fixer.class, MechanicService.class);
+        map.put(ParserVehicleInterface.class, ParserVehicleFromFile.class);
         return map;
     }
 
-    private static Map<Class<?>, Class<?>> initInterfaceToImplementationMechanicService() {
-        Map<Class<?>, Class<?>> map = new HashMap<>();
-        map.put(Fixer.class, MechanicService.class);
-        return map;
+    private static void printRents(VehicleCollection vehicleCollection) {
+        System.out.println(vehicleCollection.getRents());
     }
 }

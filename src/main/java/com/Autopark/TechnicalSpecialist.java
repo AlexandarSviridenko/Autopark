@@ -1,5 +1,7 @@
 package com.Autopark;
 
+import com.Autopark.Auto.Color;
+import com.Autopark.Auto.VehicleType;
 import com.Autopark.Engine.DieselEngine;
 import com.Autopark.Engine.ElectricalEngine;
 import com.Autopark.Engine.GasolineEngine;

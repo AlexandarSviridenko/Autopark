@@ -1,4 +1,4 @@
-package com.Autopark;
+package com.Autopark.Auto;
 
 public class VehicleType {
 

@@ -1,4 +1,4 @@
-package com.Autopark;
+package com.Autopark.StackAndQueue;
 
 import java.util.Arrays;
 import java.util.Iterator;

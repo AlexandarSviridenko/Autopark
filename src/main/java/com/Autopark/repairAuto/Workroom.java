@@ -1,9 +1,9 @@
-package com.Autopark;
+package com.Autopark.repairAuto;
 
+import com.Autopark.Auto.Vehicle;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Workroom {

@@ -1,7 +1,7 @@
-package com.Autopark;
+package com.Autopark.utils;
 
-import com.Autopark.Main.*;
-import com.Autopark.utils.VehicleUtils;
+import com.Autopark.Auto.Vehicle;
+import com.Autopark.Auto.VehicleType;
 
 import static com.Autopark.utils.VehicleUtils.*;
 
