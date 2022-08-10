@@ -28,5 +28,16 @@
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.35</version>
+        </dependency>
     </dependencies>
 </project>

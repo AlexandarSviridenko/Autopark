@@ -1,4 +1,6 @@
-package com.Autopark;
+package com.Autopark.Comparator;
+
+import com.Autopark.Auto.Vehicle;
 
 import java.util.Comparator;
 import java.util.Locale;

@@ -1,6 +1,5 @@
-package com.Autopark;
+package com.Autopark.Auto;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 public class Rent {
