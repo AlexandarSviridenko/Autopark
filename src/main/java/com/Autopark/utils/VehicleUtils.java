@@ -1,7 +1,12 @@
 package com.Autopark.utils;
 
-import com.Autopark.*;
+import com.Autopark.Auto.Vehicle;
+import com.Autopark.Auto.VehicleCollection;
+import com.Autopark.Auto.VehicleType;
 import com.Autopark.Exception.DefectedVehicleException;
+import com.Autopark.StackAndQueue.MyQueue;
+import com.Autopark.StackAndQueue.MyStack;
+import com.Autopark.repairAuto.MechanicService;
 
 
 public class VehicleUtils {

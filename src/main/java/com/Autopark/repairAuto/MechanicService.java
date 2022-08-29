@@ -1,20 +1,16 @@
-package com.Autopark;
+package com.Autopark.repairAuto;
 
+import com.Autopark.parser.ParserBreakingsFromFile;
+import com.Autopark.Auto.Vehicle;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
 
-import static com.Autopark.ParserBreakingsFromFile.*;
+import static com.Autopark.parser.ParserBreakingsFromFile.*;
 
 public class MechanicService implements Fixer {
-    static final String[] details = {"Фильтр", "Втулка", "Вал", "Ось",
+    public static final String[] details = {"Фильтр", "Втулка", "Вал", "Ось",
             "Свеча", "Масло", "ГРМ", "ШРУС"};
 
     @Autowired
@@ -43,8 +39,8 @@ public class MechanicService implements Fixer {
     @Override
     public void repair(Vehicle vehicle) {
         List<String> result = new ArrayList<>();
-        int counter = 0;
-        counter = counter(vehicle);
+        long counter = 0;
+        counter = parser.counter(vehicle);
         parser.counterMoreNull(vehicle, counter);
         parser.writeInFileRemainingBreaking(vehicle, result);
         parser.counterEqualNull(vehicle, counter);

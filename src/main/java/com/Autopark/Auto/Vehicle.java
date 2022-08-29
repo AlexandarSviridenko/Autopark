@@ -1,4 +1,4 @@
-package com.Autopark;
+package com.Autopark.Auto;
 
 import com.Autopark.Engine.Startable;
 import com.Autopark.Exception.NotVehicleException;
@@ -199,7 +199,7 @@ public class Vehicle {
     @Override
     public String toString() {
         return type + "," + modelName + "," + registrationNumber + "," + weight + "," + manufactureYear + ","
-                + mileage + "," + color + "," /*+ volumeTank + ","*/ + getCalcTaxPerMonth() + getSumOfBrokenParts();
+                + mileage + "," + color + "," + rents + "," /*+ volumeTank + ","*/ + getCalcTaxPerMonth() + getSumOfBrokenParts();
 
     }
 

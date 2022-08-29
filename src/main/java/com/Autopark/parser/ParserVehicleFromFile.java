@@ -1,12 +1,20 @@
-package com.Autopark;
+package com.Autopark.parser;
 
+import com.Autopark.*;
+import com.Autopark.Auto.Color;
+import com.Autopark.Auto.Rent;
+import com.Autopark.Auto.Vehicle;
+import com.Autopark.Auto.VehicleType;
+import com.Autopark.Comparator.VehicleComparator;
 import com.Autopark.Engine.DieselEngine;
 import com.Autopark.Engine.ElectricalEngine;
 import com.Autopark.Engine.GasolineEngine;
 import com.Autopark.Engine.Startable;
 import com.Autopark.Exception.NotFindTypeById;
+import com.Autopark.entity.Rents;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class ParserVehicleFromFile {
+public class ParserVehicleFromFile implements ParserVehicleInterface {
 
     public static final String TYPES_PATH = "src/main/resources/File.csv/types.csv";
     public static final String VEHICLES_PATH = "src/main/resources/File.csv/vehicles.csv";
@@ -39,6 +47,7 @@ public class ParserVehicleFromFile {
         Collections.sort(getVehicles(), new VehicleComparator());
     }
 
+    @Override
     public List<VehicleType> loadTypes() {
 
         List<VehicleType> list = new ArrayList<>();
@@ -51,9 +60,10 @@ public class ParserVehicleFromFile {
         return list;
     }
 
-    public List<Rent> loadRents() {
+    @Override
+    public List<Rents> loadRents() {
 
-        List<Rent> list = new ArrayList<>();
+        List<Rents> list = new ArrayList<>();
         List<String> csvStrings = readFile(RENTS_PATH);
 
         for (String csvString : csvStrings) {
@@ -63,6 +73,7 @@ public class ParserVehicleFromFile {
         return list;
     }
 
+    @Override
     public List<Vehicle> loadVehicles() {
         List<Vehicle> list = new ArrayList<>();
         List<String> csvStrings = readFile(VEHICLES_PATH);
@@ -87,8 +98,9 @@ public class ParserVehicleFromFile {
         return new VehicleType(typeName, taxCoefficient, id);
     }
 
-    public Rent createRent(String csvString) {
-        int id;
+    @SneakyThrows
+    public Rents createRent(String csvString) {
+        long id;
         Date date;
         double cost;
         DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
@@ -106,7 +118,7 @@ public class ParserVehicleFromFile {
 
         getVehicleById(id).getRents().add(new Rent(date, cost));
 
-        return new Rent(date, cost);
+        return new Rents(id, date, cost);
     }
 
     public Vehicle createVehicle(String csvString) {
@@ -254,7 +266,7 @@ public class ParserVehicleFromFile {
         return null;
     }
 
-    private Vehicle getVehicleById(int id) {
+    private Vehicle getVehicleById(long id) {
         for (Vehicle vehicle : loadVehicles()) {
             if (vehicle.getId() == id) {
                 return vehicle;

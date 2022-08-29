@@ -1,4 +1,6 @@
-package com.Autopark;
+package com.Autopark.repairAuto;
+
+import com.Autopark.Auto.Vehicle;
 
 import java.util.HashMap;
 import java.util.Map;
