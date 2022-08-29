@@ -1,6 +1,7 @@
 package com.Autopark.repairAuto;
 
 import com.Autopark.Auto.Vehicle;
+import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 
 import java.util.List;

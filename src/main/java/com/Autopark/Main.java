@@ -29,7 +29,7 @@ public class Main {
         printRents(vehicleCollection);
         workroom.checkAllVehicles(vehicleCollection.getVehicles());
 
-       AutoCheck autoCheck = context.getObject(AutoCheck.class);
+        AutoCheck autoCheck = context.getObject(AutoCheck.class);
         autoCheck.vehiclesFromDBToWorkroom(context);
 
         try {

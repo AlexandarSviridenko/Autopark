@@ -5,6 +5,7 @@ import com.Autopark.infrastructure.core.Context;
 import com.Autopark.infrastructure.orm.EntityManager;
 import com.Autopark.infrastructure.threads.annotations.Schedule;
 import com.Autopark.repairAuto.Workroom;
+import com.Autopark.service.VehicleService;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class AutoCheck {
     @Schedule(delta = 10000,timeout = 10000)
     public void vehiclesFromDBToWorkroom(Context context) {
         EntityManager manager = context.getObject(EntityManager.class);
-        List<Vehicle> vehicles = manager.getAll(Vehicle.class);
+        List<Vehicles> vehicles = manager.getAll(Vehicles.class);
         context.getObject(Workroom.class).checkAllVehicles(vehicles);
     }
 }
