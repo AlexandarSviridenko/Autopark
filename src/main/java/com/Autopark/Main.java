@@ -1,5 +1,6 @@
 package com.Autopark;
 
+import com.Autopark.Auto.AutoCheck;
 import com.Autopark.Auto.VehicleCollection;
 import com.Autopark.infrastructure.core.impl.ApplicationContext;
 import com.Autopark.parser.ParserVehicleFromFile;
@@ -27,6 +28,15 @@ public class Main {
 
         printRents(vehicleCollection);
         workroom.checkAllVehicles(vehicleCollection.getVehicles());
+
+       AutoCheck autoCheck = context.getObject(AutoCheck.class);
+        autoCheck.vehiclesFromDBToWorkroom(context);
+
+        try {
+            Thread.sleep(100000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static Map<Class<?>, Class<?>> initInterfaceToImplementation() {
