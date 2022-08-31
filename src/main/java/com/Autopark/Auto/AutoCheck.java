@@ -5,7 +5,6 @@ import com.Autopark.infrastructure.core.Context;
 import com.Autopark.infrastructure.orm.EntityManager;
 import com.Autopark.infrastructure.threads.annotations.Schedule;
 import com.Autopark.repairAuto.Workroom;
-import com.Autopark.service.VehicleService;
 
 import java.util.List;
 

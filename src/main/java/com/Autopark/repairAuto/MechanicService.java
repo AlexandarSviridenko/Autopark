@@ -1,5 +1,6 @@
 package com.Autopark.repairAuto;
 
+import com.Autopark.entity.Vehicles;
 import com.Autopark.parser.ParserBreakingsFromFile;
 import com.Autopark.Auto.Vehicle;
 import com.Autopark.infrastructure.core.annotations.Autowired;
@@ -28,7 +29,7 @@ public class MechanicService implements Fixer {
     }
 
     @Override
-    public Map<String, Integer> detectBreaking(Vehicle vehicle) {
+    public Map<String, Integer> detectBreaking(Vehicles vehicle) {
         Map<String, Integer> result = new HashMap<>();
         int sum = parser.createRandomBrokenDetailsAndReturnSum(vehicle, result);
         vehicle.setSumOfBrokenParts(sum);
@@ -37,7 +38,7 @@ public class MechanicService implements Fixer {
     }
 
     @Override
-    public void repair(Vehicle vehicle) {
+    public void repair(Vehicles vehicle) {
         List<String> result = new ArrayList<>();
         long counter = 0;
         counter = parser.counter(vehicle);
@@ -47,7 +48,7 @@ public class MechanicService implements Fixer {
     }
 
     @Override
-    public boolean isBroken(Vehicle vehicle) {
+    public boolean isBroken(Vehicles vehicle) {
         if (vehicle.getBroken()) {
             return true;
         } else {

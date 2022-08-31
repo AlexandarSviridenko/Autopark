@@ -1,6 +1,7 @@
 package com.Autopark.parser;
 
 import com.Autopark.Auto.Vehicle;
+import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class ParserBreakingsFromFile implements ParserBreakingInterface {
     public void init() {
     }
 
-    public void loadOrders(Vehicle vehicle, Map<String, Integer> result) {
+    public void loadOrders(Vehicles vehicle, Map<String, Integer> result) {
         createRandomBrokenDetailsAndReturnSum(vehicle, result);
         writeInFileBrokenDetails(vehicle, result);
     }
@@ -87,7 +88,7 @@ public class ParserBreakingsFromFile implements ParserBreakingInterface {
         }
     }
 
-    public void writeInFileRemainingBreaking(Vehicle vehicle, List<String> result) {
+    public void writeInFileRemainingBreaking(Vehicles vehicle, List<String> result) {
         try {
             File writer = new File(ORDERS_PATH);
             FileWriter file = new FileWriter(writer, false);

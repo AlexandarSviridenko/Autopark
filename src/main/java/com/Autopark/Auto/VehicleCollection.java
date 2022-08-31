@@ -2,6 +2,7 @@ package com.Autopark.Auto;
 
 import com.Autopark.Auto.Vehicle;
 import com.Autopark.entity.Rents;
+import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
 import com.Autopark.parser.ParserVehicleFromFile;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class VehicleCollection {
     private List<VehicleType> vehicleTypes;
-    private List<Vehicle> vehicles;
+    private List<Vehicles> vehicles;
     private List<Rents> rents;
 
     @Autowired
@@ -28,11 +29,11 @@ public class VehicleCollection {
         this.vehicleTypes = vehicleTypes;
     }
 
-    public void setVehicles(List<Vehicle> vehicles) {
+    public void setVehicles(List<Vehicles> vehicles) {
         this.vehicles = vehicles;
     }
 
-    public List<Vehicle> getVehicles() {
+    public List<Vehicles> getVehicles() {
         return vehicles;
     }
 

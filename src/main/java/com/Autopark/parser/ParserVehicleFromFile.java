@@ -12,6 +12,7 @@ import com.Autopark.Engine.GasolineEngine;
 import com.Autopark.Engine.Startable;
 import com.Autopark.Exception.NotFindTypeById;
 import com.Autopark.entity.Rents;
+import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
 import lombok.SneakyThrows;
@@ -39,13 +40,13 @@ public class ParserVehicleFromFile implements ParserVehicleInterface {
     public void init() {
     }
 
-    public List<Vehicle> getVehicles() {
+    public List<Vehicles> getVehicles() {
         return loadVehicles();
     }
 
-    public void sortCollection() {
-        Collections.sort(getVehicles(), new VehicleComparator());
-    }
+//    public void sortCollection() {
+//        Collections.sort(getVehicles(), new VehicleComparator());
+//    }
 
     @Override
     public List<VehicleType> loadTypes() {
@@ -74,8 +75,8 @@ public class ParserVehicleFromFile implements ParserVehicleInterface {
     }
 
     @Override
-    public List<Vehicle> loadVehicles() {
-        List<Vehicle> list = new ArrayList<>();
+    public List<Vehicles> loadVehicles() {
+        List<Vehicles> list = new ArrayList<>();
         List<String> csvStrings = readFile(VEHICLES_PATH);
 
         for (String csvString : csvStrings) {
@@ -116,21 +117,21 @@ public class ParserVehicleFromFile implements ParserVehicleInterface {
             throw new IllegalArgumentException(e);
         }
 
-        getVehicleById(id).getRents().add(new Rent(date, cost));
+        //getVehicleById(id).getRents().add(new Rent(date, cost));
 
         return new Rents(id, date, cost);
     }
 
-    public Vehicle createVehicle(String csvString) {
-        int id;
-        int typeId;
-        Startable engine;
+    public Vehicles createVehicle(String csvString) {
+        long id;
+        long typeId;
         String modelName;
         String registrationNumber;
         int weight;
         int manufactureYear;
         int mileage;
-        Color color;
+        String color;
+        String engine;
         boolean broken;
 
         String[] params = parseLine(csvString);
@@ -141,16 +142,17 @@ public class ParserVehicleFromFile implements ParserVehicleInterface {
         weight = Integer.parseInt(params[4]);
         manufactureYear = Integer.parseInt(params[5]);
         mileage = Integer.parseInt(params[6]);
-        color = Color.valueOf(params[7].toUpperCase(Locale.ROOT));
+        color = params[7].toUpperCase(Locale.ROOT);
 
         typeId = Integer.parseInt(params[1]);
         VehicleType type = getTypeById(typeId);
 
-        engine = createEngine(params, 8);
-        return new Vehicle(id, type, engine, modelName, registrationNumber, weight, manufactureYear, mileage, color);
+        //engine = createEngine(params, 8);
+        engine = params[8];
+        return new Vehicles(id, typeId, modelName, registrationNumber, weight, manufactureYear, mileage, color, engine);
     }
 
-    public void insert(Vehicle v) {
+    public void insert(Vehicles v) {
         loadVehicles().add(v);
     }
 
@@ -167,61 +169,61 @@ public class ParserVehicleFromFile implements ParserVehicleInterface {
         return -1;
     }
 
-    double sumTotalProfit() {
-        double sum = 0.0d;
+//    double sumTotalProfit() {
+//        double sum = 0.0d;
+//
+//        for (Vehicle vehicle : loadVehicles()) {
+//            sum += vehicle.getTotalProfit();
+//        }
+//
+//        return sum;
+//    }
 
-        for (Vehicle vehicle : loadVehicles()) {
-            sum += vehicle.getTotalProfit();
-        }
-
-        return sum;
-    }
-
-    public void display() {
-        String indentsTop = "%5s %10s %20s %10s %11s %6s %8s %7s %9s %10s %9s";
-        String indentsLine = "%5d %10s %20s %10s %11d %6d %8d %7s %9.2f %10.2f %10.2f";
-        String indentsBottom = "%5s %102.2f";
-        String idStr = "Id";
-        String typeStr = "Type";
-        String modelNameStr = "Model Name";
-        String numberStr = "Number";
-        String weightStr = "Weight (kg)";
-        String yearStr = "Year";
-        String mileageStr = "Mileage";
-        String colorStr = "Color";
-        String incomeStr = "Income";
-        String taxStr = "Tax";
-        String profitStr = "Profit";
-
-        String top = String.format(indentsTop, idStr, typeStr,
-                modelNameStr, numberStr, weightStr, yearStr, mileageStr,
-                colorStr, incomeStr, taxStr, profitStr);
-
-        System.out.println(top);
-        for (Vehicle vehicle : loadVehicles()) {
-            int id = vehicle.getId();
-            String type = vehicle.getType().getName();
-            String modelName = vehicle.getModelName();
-            String number = vehicle.getRegistrationNumber();
-            int weight = vehicle.getWeight();
-            int year = vehicle.getManufactureYear();
-            int mileage = vehicle.getMileage();
-            String color = vehicle.getColor().toString();
-            double income = vehicle.getTotalIncome();
-            double tax = vehicle.getCalcTaxPerMonth();
-            double profit = vehicle.getTotalProfit();
-
-            String line = String.format(indentsLine, id, type,
-                    modelName, number, weight, year, mileage,
-                    color, income, tax, profit);
-
-            System.out.println(line);
-        }
-
-        double total = countTotal();
-        String bottom = String.format(indentsBottom, "Total income:", total);
-        System.out.println(bottom);
-    }
+//    public void display() {
+//        String indentsTop = "%5s %10s %20s %10s %11s %6s %8s %7s %9s %10s %9s";
+//        String indentsLine = "%5d %10s %20s %10s %11d %6d %8d %7s %9.2f %10.2f %10.2f";
+//        String indentsBottom = "%5s %102.2f";
+//        String idStr = "Id";
+//        String typeStr = "Type";
+//        String modelNameStr = "Model Name";
+//        String numberStr = "Number";
+//        String weightStr = "Weight (kg)";
+//        String yearStr = "Year";
+//        String mileageStr = "Mileage";
+//        String colorStr = "Color";
+//        String incomeStr = "Income";
+//        String taxStr = "Tax";
+//        String profitStr = "Profit";
+//
+//        String top = String.format(indentsTop, idStr, typeStr,
+//                modelNameStr, numberStr, weightStr, yearStr, mileageStr,
+//                colorStr, incomeStr, taxStr, profitStr);
+//
+//        System.out.println(top);
+//        for (Vehicle vehicle : loadVehicles()) {
+//            int id = vehicle.getId();
+//            String type = vehicle.getType().getName();
+//            String modelName = vehicle.getModelName();
+//            String number = vehicle.getRegistrationNumber();
+//            int weight = vehicle.getWeight();
+//            int year = vehicle.getManufactureYear();
+//            int mileage = vehicle.getMileage();
+//            String color = vehicle.getColor().toString();
+//            double income = vehicle.getTotalIncome();
+//            double tax = vehicle.getCalcTaxPerMonth();
+//            double profit = vehicle.getTotalProfit();
+//
+//            String line = String.format(indentsLine, id, type,
+//                    modelName, number, weight, year, mileage,
+//                    color, income, tax, profit);
+//
+//            System.out.println(line);
+//        }
+//
+//        double total = countTotal();
+//        String bottom = String.format(indentsBottom, "Total income:", total);
+//        System.out.println(bottom);
+//    }
 
     private List<String> readFile(String inFile) {
         List<String> csvStrings = new ArrayList<>();
@@ -252,7 +254,7 @@ public class ParserVehicleFromFile implements ParserVehicleInterface {
         return params;
     }
 
-    private VehicleType getTypeById(int typeId) {
+    private VehicleType getTypeById(long typeId) {
         try {
             for (VehicleType type : loadTypes()) {
                 if (type.getId() == typeId) {
@@ -266,8 +268,8 @@ public class ParserVehicleFromFile implements ParserVehicleInterface {
         return null;
     }
 
-    private Vehicle getVehicleById(long id) {
-        for (Vehicle vehicle : loadVehicles()) {
+    private Vehicles getVehicleById(long id) {
+        for (Vehicles vehicle : loadVehicles()) {
             if (vehicle.getId() == id) {
                 return vehicle;
             }
@@ -305,13 +307,13 @@ public class ParserVehicleFromFile implements ParserVehicleInterface {
         }
     }
 
-    private double countTotal() {
-        double sum = 0.0d;
-
-        for (Vehicle vehicle : loadVehicles()) {
-            sum += vehicle.getTotalProfit();
-        }
-
-        return sum;
-    }
+//    private double countTotal() {
+//        double sum = 0.0d;
+//
+//        for (Vehicle vehicle : loadVehicles()) {
+//            sum += vehicle.getTotalProfit();
+//        }
+//
+//        return sum;
+//    }
 }

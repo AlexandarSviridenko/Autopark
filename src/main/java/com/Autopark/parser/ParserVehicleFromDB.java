@@ -4,6 +4,7 @@ import com.Autopark.Auto.Rent;
 import com.Autopark.Auto.Vehicle;
 import com.Autopark.Auto.VehicleType;
 import com.Autopark.entity.Rents;
+import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.service.RentsService;
 import com.Autopark.service.TypesService;
@@ -25,7 +26,7 @@ public class ParserVehicleFromDB implements ParserVehicleInterface {
     }
 
     @Override
-    public List<Vehicle> loadVehicles() {
+    public List<Vehicles> loadVehicles() {
         return vehiclesService.getAll();
     }
 

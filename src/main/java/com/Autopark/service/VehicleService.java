@@ -16,15 +16,15 @@ public class VehicleService {
     public void init() {
     }
 
-    public Vehicle get(Long id) {
-        return entityManager.get(id, Vehicle.class).get();
+    public Vehicles get(Long id) {
+        return entityManager.get(id, Vehicles.class).get();
     }
 
-    public List<Vehicle> getAll() {
-        return entityManager.getAll(Vehicle.class);
+    public List<Vehicles> getAll() {
+        return entityManager.getAll(Vehicles.class);
     }
 
-    public Long save(Vehicle vehicle) {
+    public Long save(Vehicles vehicle) {
         return entityManager.save(vehicle);
     }
 }
