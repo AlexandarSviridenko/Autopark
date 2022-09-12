@@ -1,4 +1,4 @@
-package com.Autopark.infrastructure.configurators.impl;
+package com.Autopark.infrastructure.configuratots;
 
 import com.Autopark.infrastructure.core.Context;
 

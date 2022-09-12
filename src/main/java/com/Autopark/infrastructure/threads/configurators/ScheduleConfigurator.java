@@ -1,6 +1,6 @@
 package com.Autopark.infrastructure.threads.configurators;
 
-import com.Autopark.infrastructure.configurators.impl.ProxyConfigurator;
+import com.Autopark.infrastructure.configuratots.ProxyConfigurator;
 import com.Autopark.infrastructure.core.Context;
 import com.Autopark.infrastructure.threads.annotations.Schedule;
 import lombok.SneakyThrows;

@@ -46,6 +46,10 @@ public class PostgreDataBaseService {
             "INSERT INTO %s(%s)\n" +
                     "   VALUES (%s)\n" +
                     "   RETURNING %s;";
+    private static final String DELETE_ROW_SQL_PATTERN =
+            "DELETE FROM %s\n" +
+                    "   WHERE %s = %s\n" +
+                    "   RETURNING *;";
 
 
     @Autowired
@@ -110,6 +114,25 @@ public class PostgreDataBaseService {
         setIdField(obj, idField, id);
 
         return id;
+    }
+
+    @SneakyThrows
+    public <T> Optional<T> delete(Long id, Class<T> clazz) {
+        checkTableAnnotation(clazz);
+
+        String sql = String.format(DELETE_ROW_SQL_PATTERN, clazz.getDeclaredAnnotation(Table.class).name()
+                , getIdFieldName(clazz.getDeclaredFields())
+                , id);
+
+        try (Connection connection = connectionFactory.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            if (resultSet.next()) {
+                return Optional.of(makeObject(resultSet, clazz));
+            }
+        }
+
+        return Optional.empty();
     }
 
     @SneakyThrows

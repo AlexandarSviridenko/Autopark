@@ -1,4 +1,4 @@
-package com.Autopark.infrastructure.config.impl;
+package com.Autopark.infrastructure.config;
 
 import com.Autopark.infrastructure.core.Scanner;
 

@@ -1,6 +1,6 @@
 package com.Autopark.repairAuto;
 
-import com.Autopark.Auto.Vehicle;
+//import com.Autopark.Auto.Vehicle;
 import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 
@@ -11,16 +11,16 @@ public class Workroom {
     @Autowired
     private Fixer mechanic;
 
-    public Workroom() {
-    }
-
-    public Fixer getMechanic() {
-        return mechanic;
-    }
-
-    public void setMechanic(Fixer mechanic) {
-        this.mechanic = mechanic;
-    }
+//    public Workroom() {
+//    }
+//
+//    public Fixer getMechanic() {
+//        return mechanic;
+//    }
+//
+//    public void setMechanic(Fixer mechanic) {
+//        this.mechanic = mechanic;
+//    }
 
     public void checkAllVehicles(List<Vehicles> vehicles) {
         vehicles.forEach(f -> mechanic.detectBreaking(f));

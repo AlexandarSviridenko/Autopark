@@ -5,7 +5,7 @@ import lombok.Getter;
 
 import java.util.Date;
 
-@AllArgsConstructor
+//@AllArgsConstructor
 @Getter
 public enum SqlFieldType {
     INTEGER(Integer.class, "integer", "%s"),
@@ -16,4 +16,22 @@ public enum SqlFieldType {
     private final Class<?> type;
     private final String sqlType;
     private final String insertPattern;
+
+    SqlFieldType(Class<?> type, String sqlType, String insertPattern) {
+        this.type = type;
+        this.sqlType = sqlType;
+        this.insertPattern = insertPattern;
+    }
+
+    public Class<?> getType() {
+        return type;
+    }
+
+    public String getSqlType() {
+        return sqlType;
+    }
+
+    public String getInsertPattern() {
+        return insertPattern;
+    }
 }

@@ -1,5 +1,6 @@
 package com.Autopark.infrastructure.config.impl;
 
+import com.Autopark.infrastructure.config.Config;
 import com.Autopark.infrastructure.core.Scanner;
 import lombok.AllArgsConstructor;
 

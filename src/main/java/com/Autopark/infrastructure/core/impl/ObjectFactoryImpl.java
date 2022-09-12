@@ -1,9 +1,7 @@
 package com.Autopark.infrastructure.core.impl;
 
-import com.Autopark.infrastructure.configurators.impl.AutowiredObjectConfigurator;
-import com.Autopark.infrastructure.configurators.impl.ObjectConfigurator;
-import com.Autopark.infrastructure.configurators.impl.PropertyObjectConfigurator;
-import com.Autopark.infrastructure.configurators.impl.ProxyConfigurator;
+import com.Autopark.infrastructure.configuratots.ObjectConfigurator;
+import com.Autopark.infrastructure.configuratots.ProxyConfigurator;
 import com.Autopark.infrastructure.core.Context;
 import com.Autopark.infrastructure.core.ObjectFactory;
 import com.Autopark.infrastructure.core.Scanner;

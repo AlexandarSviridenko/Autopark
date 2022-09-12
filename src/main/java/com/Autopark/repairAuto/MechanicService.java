@@ -1,10 +1,12 @@
 package com.Autopark.repairAuto;
 
 import com.Autopark.entity.Vehicles;
+import com.Autopark.parser.ParserBreakingInterface;
 import com.Autopark.parser.ParserBreakingsFromFile;
-import com.Autopark.Auto.Vehicle;
+//import com.Autopark.Auto.Vehicle;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
+import com.Autopark.service.OrdersService;
 
 import java.util.*;
 
@@ -15,25 +17,31 @@ public class MechanicService implements Fixer {
             "Свеча", "Масло", "ГРМ", "ШРУС"};
 
     @Autowired
-    private ParserBreakingsFromFile parser;
+    private ParserBreakingInterface parser;
 
     public MechanicService() {
     }
 
-    public ParserBreakingsFromFile getParser() {
+    public ParserBreakingInterface getParser() {
         return parser;
     }
 
-    public void setParser(ParserBreakingsFromFile parser) {
+    public void setParser(ParserBreakingInterface parser) {
         this.parser = parser;
     }
 
     @Override
     public Map<String, Integer> detectBreaking(Vehicles vehicle) {
         Map<String, Integer> result = new HashMap<>();
-        int sum = parser.createRandomBrokenDetailsAndReturnSum(vehicle, result);
-        vehicle.setSumOfBrokenParts(sum);
-        result = parser.writeInFileBrokenDetails(vehicle, result);
+       // parser.loadOrders(vehicle,result);/* генерирует поломку и записывает в файл*/
+       //сгенерировать и загрузить в БД
+
+//        OrdersService ordersService = new OrdersService();
+//        ordersService.save(result);
+
+//        parser.createRandomBrokenDetailsAndReturnSum(vehicle, result);
+//        //vehicle.setSumOfBrokenParts(sum);
+//        result = parser.writeInFileBrokenDetails(vehicle, result);
         return result;
     }
 
@@ -41,15 +49,15 @@ public class MechanicService implements Fixer {
     public void repair(Vehicles vehicle) {
         List<String> result = new ArrayList<>();
         long counter = 0;
-        counter = parser.counter(vehicle);
-        parser.counterMoreNull(vehicle, counter);
-        parser.writeInFileRemainingBreaking(vehicle, result);
-        parser.counterEqualNull(vehicle, counter);
+//        counter = parser.counter(vehicle);
+//        parser.counterMoreNull(vehicle, counter);
+//        parser.writeInFileRemainingBreaking(vehicle, result);
+//        parser.counterEqualNull(vehicle, counter);
     }
 
     @Override
     public boolean isBroken(Vehicles vehicle) {
-        if (vehicle.getBroken()) {
+        if (/*vehicle.getBroken()*/ true) {
             return true;
         } else {
             return false;
