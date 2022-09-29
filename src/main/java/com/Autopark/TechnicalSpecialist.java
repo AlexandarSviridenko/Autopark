@@ -44,15 +44,6 @@ public class TechnicalSpecialist {
         }
     }
 
-//    static public boolean validateVehicleType(VehicleType type) {
-//        String name = type.getName();
-//        if (name != null && !(name.equals(""))) {
-//            return type.getTax() > 0.0;
-//        }
-//
-//        return false;
-//    }
-
     static public boolean validateRegistrationNumber(String registrationNumber) {
 
         if (registrationNumber == null || registrationNumber.length() != 9) {

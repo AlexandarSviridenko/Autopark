@@ -1,6 +1,5 @@
 package com.Autopark.repairAuto;
 
-//import com.Autopark.Auto.Vehicle;
 import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 
@@ -11,23 +10,12 @@ public class Workroom {
     @Autowired
     private Fixer mechanic;
 
-//    public Workroom() {
-//    }
-//
-//    public Fixer getMechanic() {
-//        return mechanic;
-//    }
-//
-//    public void setMechanic(Fixer mechanic) {
-//        this.mechanic = mechanic;
-//    }
-
-    public void checkAllVehicles(List<Vehicles> vehicles) {
-        vehicles.forEach(f -> mechanic.detectBreaking(f));
-        showBroken(vehicles.stream());
+    public void checkAllVehicles(List<Vehicles> vehicle) {
+        vehicle.forEach(f -> mechanic.detectBreaking(f));
+        showBroken(vehicle.stream());
         System.out.println("Started repair:");
-        vehicles.forEach(f1 -> mechanic.detectAndRepair(f1));
-        showServiceable(vehicles.stream());
+        vehicle.forEach(f1 -> mechanic.detectAndRepair(f1));
+        showServiceable(vehicle.stream());
     }
 
     private void showBroken(Stream<Vehicles> stream) {
@@ -37,6 +25,6 @@ public class Workroom {
 
     private void showServiceable(Stream<Vehicles> stream) {
         System.out.println("Serviceable vehicles:");
-        stream.filter(v -> !mechanic.isBroken(v)).forEach(System.out::println);
+        stream.filter(v -> mechanic.isBroken(v)).forEach(System.out::println);
     }
 }

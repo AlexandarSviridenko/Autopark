@@ -9,12 +9,13 @@ import com.Autopark.repairAuto.Workroom;
 import java.util.List;
 
 public class AutoCheck {
+
     public AutoCheck() {}
 
     @Schedule(delta = 10000,timeout = 10000)
     public void vehiclesFromDBToWorkroom(Context context) {
         EntityManager manager = context.getObject(EntityManager.class);
-        List<Vehicles> vehicles = manager.getAll(Vehicles.class);
-        context.getObject(Workroom.class).checkAllVehicles(vehicles);
+        List<Vehicles> vehicle = manager.getAll(Vehicles.class);
+        context.getObject(Workroom.class).checkAllVehicles(vehicle);
     }
 }

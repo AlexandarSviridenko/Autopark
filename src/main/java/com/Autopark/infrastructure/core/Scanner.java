@@ -6,6 +6,5 @@ import java.util.Set;
 
 public interface Scanner {
     <T> Set<Class<? extends T>> getSubtypesOf(Class<T> type);
-
     Reflections getReflections();
 }

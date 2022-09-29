@@ -10,7 +10,6 @@ import com.Autopark.infrastructure.orm.annotations.Table;
 import com.Autopark.infrastructure.orm.enums.SqlFieldType;
 import lombok.SneakyThrows;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -48,6 +47,10 @@ public class PostgreDataBaseService {
                     "   RETURNING %s;";
     private static final String DELETE_ROW_SQL_PATTERN =
             "DELETE FROM %s\n" +
+                    "   WHERE %s = %s\n" +
+                    "   RETURNING *;";
+    private static final String VEHICLE_IS_BROKEN_SQL_PATTERN =
+            "SELECT FROM ORDERS\n" +
                     "   WHERE %s = %s\n" +
                     "   RETURNING *;";
 
@@ -107,7 +110,6 @@ public class PostgreDataBaseService {
                     return new Object();
                 })
                 .toArray();
-
         String sql = String.format(insertByClassPattern.get(obj.getClass().getName()), values);
         id = executeInsert(sql, getIdFieldName(idField));
 
@@ -121,7 +123,7 @@ public class PostgreDataBaseService {
         checkTableAnnotation(clazz);
 
         String sql = String.format(DELETE_ROW_SQL_PATTERN, clazz.getDeclaredAnnotation(Table.class).name()
-                , getIdFieldName(clazz.getDeclaredFields())
+                , getColumnFieldName(clazz.getDeclaredFields())
                 , id);
 
         try (Connection connection = connectionFactory.getConnection();
@@ -141,6 +143,26 @@ public class PostgreDataBaseService {
 
         String sql = "SELECT * FROM " + clazz.getDeclaredAnnotation(Table.class).name() +
                 "\nWHERE " + getIdFieldName(clazz.getDeclaredFields()) + " = " + id;
+
+        try (Connection connection = connectionFactory.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            if (resultSet.next()) {
+                return Optional.of(makeObject(resultSet, clazz));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return Optional.empty();
+    }
+
+    @SneakyThrows
+    public <T> Optional<T> getColumn(Long id, Class<T> clazz) {
+        checkTableAnnotation(clazz);
+
+        String sql = "SELECT * FROM " + clazz.getDeclaredAnnotation(Table.class).name() +
+                "\nWHERE " + getColumnFieldName(clazz.getDeclaredFields()) + " = " + id;
 
         try (Connection connection = connectionFactory.getConnection();
              Statement statement = connection.createStatement();
@@ -374,6 +396,16 @@ public class PostgreDataBaseService {
         for (Field field : fields) {
             if (field.isAnnotationPresent(ID.class)) {
                 return field.getAnnotation(ID.class).name();
+            }
+        }
+
+        throw new IllegalStateException("Table hasn't got 'ID' field");
+    }
+
+    private String getColumnFieldName(Field... fields) {
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(Column.class)) {
+                return field.getAnnotation(Column.class).name();
             }
         }
 

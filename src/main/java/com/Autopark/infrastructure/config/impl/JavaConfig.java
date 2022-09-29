@@ -2,15 +2,19 @@ package com.Autopark.infrastructure.config.impl;
 
 import com.Autopark.infrastructure.config.Config;
 import com.Autopark.infrastructure.core.Scanner;
-import lombok.AllArgsConstructor;
 
 import java.util.Map;
 import java.util.Set;
 
-@AllArgsConstructor
+
 public class JavaConfig implements Config {
     private final Scanner scanner;
     private final Map<Class<?>, Class<?>> interfaceToImplementation;
+
+    public JavaConfig(Scanner scanner, Map<Class<?>, Class<?>> interfaceToImplementation) {
+        this.scanner = scanner;
+        this.interfaceToImplementation = interfaceToImplementation;
+    }
 
     @Override
     public <T> Class<? extends T> getImplementation(Class<T> target) {

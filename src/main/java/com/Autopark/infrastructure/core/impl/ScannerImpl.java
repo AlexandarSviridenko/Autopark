@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class ScannerImpl implements Scanner {
 
-    private final Reflections reflections;
+    private Reflections reflections;
 
     public ScannerImpl(String packageName) {
         reflections = new Reflections(packageName);
@@ -15,7 +15,8 @@ public class ScannerImpl implements Scanner {
 
     @Override
     public <T> Set<Class<? extends T>> getSubtypesOf(Class<T> type) {
-        return reflections.getSubTypesOf(type);
+        Set<Class<? extends T>> set = reflections.getSubTypesOf(type);
+        return set;
     }
 
     @Override

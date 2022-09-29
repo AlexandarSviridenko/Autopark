@@ -1,6 +1,5 @@
 package com.Autopark.service;
 
-//import com.Autopark.Auto.VehicleType;
 import com.Autopark.entity.Types;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
@@ -13,7 +12,8 @@ public class TypesService {
     EntityManager entityManager;
 
     @InitMethod
-    public void init() { }
+    public void init() {
+    }
 
     public Types get(Long id) {
         return entityManager.get(id, Types.class).get();

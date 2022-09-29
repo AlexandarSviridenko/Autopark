@@ -1,11 +1,9 @@
 package com.Autopark.infrastructure.orm.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Date;
 
-//@AllArgsConstructor
 @Getter
 public enum SqlFieldType {
     INTEGER(Integer.class, "integer", "%s"),

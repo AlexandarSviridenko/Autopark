@@ -40,7 +40,7 @@ public class ScheduleConfigurator implements ProxyConfigurator {
             return null;
         }
 
-        return  methodProxy.invokeSuper(object, args);
+        return methodProxy.invokeSuper(object, args);
     }
 
     private void invoker(Object object, MethodProxy method, Object[] args, int milliseconds, int delta) {
@@ -57,7 +57,8 @@ public class ScheduleConfigurator implements ProxyConfigurator {
                             executorService.submit(() -> {
                                 try {
                                     return method.invokeSuper(object, args);
-                                } catch (Throwable ignore) {}
+                                } catch (Throwable ignore) {
+                                }
                                 return null;
                             }).get(milliseconds, TimeUnit.MILLISECONDS);
                         } catch (Exception e) {
@@ -68,7 +69,8 @@ public class ScheduleConfigurator implements ProxyConfigurator {
                     invokeThread.setDaemon(true);
                     invokeThread.start();
                     Thread.currentThread().sleep(delta);
-                } catch (InterruptedException ignore) {}
+                } catch (InterruptedException ignore) {
+                }
             }
         });
         thread.setDaemon(true);

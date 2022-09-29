@@ -19,7 +19,6 @@ public class ObjectFactoryImpl implements ObjectFactory {
     private final List<ObjectConfigurator> objectConfigurators = new ArrayList<>();
     private final List<ProxyConfigurator> proxyConfigurators = new ArrayList<>();
 
-
     @SneakyThrows
     public ObjectFactoryImpl(Context context) {
         this.context = context;
@@ -28,12 +27,6 @@ public class ObjectFactoryImpl implements ObjectFactory {
         Set<Class<? extends ObjectConfigurator>> objConfigs  = scanner.getSubtypesOf(ObjectConfigurator.class);
         Set<Class<? extends ProxyConfigurator>> proxyConfigs = scanner.getSubtypesOf(ProxyConfigurator.class);
 
-//        Set<Class<? extends ObjectConfigurator>> objConfigs = context
-//                .getConfig()
-//                .getScanner()
-//                .getSubtypesOf(ObjectConfigurator.class);
-//        objConfigs.add(AutowiredObjectConfigurator.class);
-//        objConfigs.add(PropertyObjectConfigurator.class);
         for (Class<? extends ObjectConfigurator> objConfig : objConfigs) {
             Constructor<? extends ObjectConfigurator> constructor = objConfig.getConstructor();
             objectConfigurators.add(constructor.newInstance());
@@ -47,12 +40,12 @@ public class ObjectFactoryImpl implements ObjectFactory {
     @SneakyThrows
     @Override
     public <T> T createObject(Class<T> implementation) {
-        T obj = create(implementation);
-        configure(obj);
-        initialize(implementation, obj);
-        obj = makeProxy(implementation, obj);
+        T object = create(implementation);
+        configure(object);
+        initialize(implementation, object);
+        object = makeProxy(implementation, object);
 
-        return obj;
+        return object;
     }
 
     private <T> T create(Class<T> implementation) throws Exception {
@@ -62,7 +55,7 @@ public class ObjectFactoryImpl implements ObjectFactory {
 
     private <T> T makeProxy(Class<T> implClass, T object) {
         for (ProxyConfigurator proxyConfigurator : proxyConfigurators) {
-            object = proxyConfigurator.makeProxy(object,implClass,context);
+            object = (T) proxyConfigurator.makeProxy(object,implClass,context);
         }
         return object;
     }

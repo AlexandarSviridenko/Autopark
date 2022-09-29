@@ -29,7 +29,6 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
         connection = DriverManager.getConnection(url, username, password);
     }
 
-
     @SneakyThrows
     @Override
     public Connection getConnection() {

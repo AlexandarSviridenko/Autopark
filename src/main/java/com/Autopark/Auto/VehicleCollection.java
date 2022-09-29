@@ -1,15 +1,11 @@
 package com.Autopark.Auto;
 
-//import com.Autopark.Auto.Vehicle;
 import com.Autopark.entity.Rents;
 import com.Autopark.entity.Types;
 import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
-import com.Autopark.parser.ParserVehicleFromDB;
-//import com.Autopark.parser.ParserVehicleFromFile;
 import com.Autopark.parser.ParserVehicleInterface;
-import com.Autopark.service.RentsService;
 
 import java.util.List;
 
