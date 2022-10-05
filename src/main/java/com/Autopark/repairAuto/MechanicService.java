@@ -10,7 +10,7 @@ import java.util.*;
 public class MechanicService implements Fixer {
     public static final String[] details = {"Фильтр", "Втулка", "Вал", "Ось",
             "Свеча", "Масло", "ГРМ", "ШРУС"};
-    long i = 1;
+    private long i = 1;
     private Orders orders;
     private Vehicles vehicle;
 

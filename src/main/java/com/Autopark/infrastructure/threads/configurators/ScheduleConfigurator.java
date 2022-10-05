@@ -43,6 +43,7 @@ public class ScheduleConfigurator implements ProxyConfigurator {
         return methodProxy.invokeSuper(object, args);
     }
 
+    @SneakyThrows
     private void invoker(Object object, MethodProxy method, Object[] args, int milliseconds, int delta) {
         Thread thread = new Thread(() -> {
             while (true) {
