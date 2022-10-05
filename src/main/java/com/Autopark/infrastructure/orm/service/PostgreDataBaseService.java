@@ -1,5 +1,6 @@
 package com.Autopark.infrastructure.orm.service;
 
+import com.Autopark.Exception.NotFindInTableIdField;
 import com.Autopark.infrastructure.core.Context;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
@@ -53,7 +54,11 @@ public class PostgreDataBaseService {
             "SELECT FROM ORDERS\n" +
                     "   WHERE %s = %s\n" +
                     "   RETURNING *;";
-
+    private static final String RETURN_BY_ID_SQL_PATTERN =
+            "SELECT * FROM %s\n" +
+                    "   WHERE %s = %s\n";
+    private static final String RETURN_ALL_SQL_PATTERN =
+            "SELECT * FROM %s\n";
 
     @Autowired
     private ConnectionFactory connectionFactory;
@@ -68,7 +73,7 @@ public class PostgreDataBaseService {
     }
 
     @InitMethod
-    public void init() {
+    public void init() throws NotFindInTableIdField {
         classToSql = Arrays.stream(SqlFieldType.values())
                 .collect(Collectors.toMap(sqlFieldType -> sqlFieldType.getType().getName(),
                         SqlFieldType::getSqlType));
@@ -90,7 +95,13 @@ public class PostgreDataBaseService {
         findOtherwiseCreateTables(entities);
 
         insertByClassPattern = new HashMap<>();
-        entities.stream().forEach(entity -> insertByClassPattern.put(entity.getName(), getInsertQuery(entity)));
+        entities.stream().forEach(entity -> {
+            try {
+                insertByClassPattern.put(entity.getName(), getInsertQuery(entity));
+            } catch (NotFindInTableIdField e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @SneakyThrows
@@ -141,8 +152,7 @@ public class PostgreDataBaseService {
     public <T> Optional<T> get(Long id, Class<T> clazz) {
         checkTableAnnotation(clazz);
 
-        String sql = "SELECT * FROM " + clazz.getDeclaredAnnotation(Table.class).name() +
-                "\nWHERE " + getIdFieldName(clazz.getDeclaredFields()) + " = " + id;
+        String sql = String.format(RETURN_BY_ID_SQL_PATTERN, clazz.getDeclaredAnnotation(Table.class).name(),getIdFieldName(clazz.getDeclaredFields()), id);
 
         try (Connection connection = connectionFactory.getConnection();
              Statement statement = connection.createStatement();
@@ -161,8 +171,7 @@ public class PostgreDataBaseService {
     public <T> Optional<T> getColumn(Long id, Class<T> clazz) {
         checkTableAnnotation(clazz);
 
-        String sql = "SELECT * FROM " + clazz.getDeclaredAnnotation(Table.class).name() +
-                "\nWHERE " + getColumnFieldName(clazz.getDeclaredFields()) + " = " + id;
+        String sql = String.format(RETURN_BY_ID_SQL_PATTERN, clazz.getDeclaredAnnotation(Table.class).name(), getColumnFieldName(clazz.getDeclaredFields()), id);
 
         try (Connection connection = connectionFactory.getConnection();
              Statement statement = connection.createStatement();
@@ -183,7 +192,7 @@ public class PostgreDataBaseService {
 
         checkTableAnnotation(clazz);
 
-        String sql = "SELECT * FROM " + clazz.getDeclaredAnnotation(Table.class).name();
+        String sql = String.format(RETURN_ALL_SQL_PATTERN, clazz.getDeclaredAnnotation(Table.class).name());
 
         try (Connection connection = connectionFactory.getConnection();
              Statement statement = connection.createStatement();
@@ -195,6 +204,7 @@ public class PostgreDataBaseService {
 
         return list;
     }
+
 
     @SneakyThrows
     private <T> T makeObject(ResultSet resultSet, Class<T> clazz) {
@@ -329,7 +339,7 @@ public class PostgreDataBaseService {
         return false;
     }
 
-    private void findOtherwiseCreateTables(Set<Class<?>> entities) {
+    private void findOtherwiseCreateTables(Set<Class<?>> entities) throws NotFindInTableIdField {
         for (Class<?> entity : entities) {
             if (!isNameExists(CHECK_TABLE_SQL_PATTERN, entity.getDeclaredAnnotation(Table.class).name())) {
                 createTable(entity);
@@ -337,7 +347,7 @@ public class PostgreDataBaseService {
         }
     }
 
-    private void createTable(Class<?> entity) {
+    private void createTable(Class<?> entity) throws NotFindInTableIdField {
         Field[] declaredFields = entity.getDeclaredFields();
 
         String tableName = entity.getDeclaredAnnotation(Table.class).name();
@@ -347,7 +357,7 @@ public class PostgreDataBaseService {
         executeCreate(CREATE_TABLE_SQL_PATTERN, tableName, idField, SEQ_NAME, fields);
     }
 
-    private String getInsertQuery(Class<?> entity) {
+    private String getInsertQuery(Class<?> entity) throws NotFindInTableIdField {
         Field[] declaredFields = entity.getDeclaredFields();
 
         String tableName = entity.getDeclaredAnnotation(Table.class).name();
@@ -392,34 +402,34 @@ public class PostgreDataBaseService {
         return strBuilder;
     }
 
-    private String getIdFieldName(Field... fields) {
+    private String getIdFieldName(Field... fields) throws NotFindInTableIdField {
         for (Field field : fields) {
             if (field.isAnnotationPresent(ID.class)) {
                 return field.getAnnotation(ID.class).name();
             }
         }
 
-        throw new IllegalStateException("Table hasn't got 'ID' field");
+        throw new NotFindInTableIdField("Table hasn't got 'ID' field");
     }
 
-    private String getColumnFieldName(Field... fields) {
+    private String getColumnFieldName(Field... fields) throws NotFindInTableIdField {
         for (Field field : fields) {
             if (field.isAnnotationPresent(Column.class)) {
                 return field.getAnnotation(Column.class).name();
             }
         }
 
-        throw new IllegalStateException("Table hasn't got 'ID' field");
+        throw new NotFindInTableIdField("Table hasn't got 'ID' field");
     }
 
-    private Field getIdField(Field[] fields) {
+    private Field getIdField(Field[] fields) throws NotFindInTableIdField {
         for (Field field : fields) {
             if (field.isAnnotationPresent(ID.class)) {
                 return field;
             }
         }
 
-        throw new IllegalStateException("Table hasn't got 'ID' field");
+        throw new NotFindInTableIdField("Table hasn't got 'ID' field");
     }
 
     private void setIdField(Object obj, Field idField, Long id) {
