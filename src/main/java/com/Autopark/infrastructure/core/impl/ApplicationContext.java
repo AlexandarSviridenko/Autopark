@@ -1,6 +1,6 @@
 package com.Autopark.infrastructure.core.impl;
 
-import com.Autopark.infrastructure.config.impl.Config;
+import com.Autopark.infrastructure.config.Config;
 import com.Autopark.infrastructure.config.impl.JavaConfig;
 import com.Autopark.infrastructure.core.Cache;
 import com.Autopark.infrastructure.core.Context;

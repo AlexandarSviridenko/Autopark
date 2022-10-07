@@ -1,38 +1,38 @@
 package com.Autopark.Auto;
 
-import com.Autopark.Auto.Vehicle;
 import com.Autopark.entity.Rents;
+import com.Autopark.entity.Types;
+import com.Autopark.entity.Vehicles;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;
-import com.Autopark.parser.ParserVehicleFromFile;
-import com.Autopark.service.RentsService;
+import com.Autopark.parser.ParserVehicleInterface;
 
 import java.util.List;
 
 public class VehicleCollection {
-    private List<VehicleType> vehicleTypes;
-    private List<Vehicle> vehicles;
+    private List<Types> vehicleTypes;
+    private List<Vehicles> vehicles;
     private List<Rents> rents;
 
     @Autowired
-    private ParserVehicleFromFile parser;
+    private ParserVehicleInterface parser;
 
     public VehicleCollection() {
     }
 
-    public List<VehicleType> getVehicleTypes() {
+    public List<Types> getVehicleTypes() {
         return vehicleTypes;
     }
 
-    public void setVehicleTypes(List<VehicleType> vehicleTypes) {
+    public void setVehicleTypes(List<Types> vehicleTypes) {
         this.vehicleTypes = vehicleTypes;
     }
 
-    public void setVehicles(List<Vehicle> vehicles) {
+    public void setVehicles(List<Vehicles> vehicles) {
         this.vehicles = vehicles;
     }
 
-    public List<Vehicle> getVehicles() {
+    public List<Vehicles> getVehicles() {
         return vehicles;
     }
 

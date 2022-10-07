@@ -1,23 +1,23 @@
 package com.Autopark.repairAuto;
 
-import com.Autopark.Auto.Vehicle;
+import com.Autopark.entity.Vehicles;
 
 import java.util.Map;
 
 public interface Fixer {
-    Map<String, Integer> detectBreaking(Vehicle vehicle);
+    Map<String, Integer> detectBreaking(Vehicles vehicle);
 
-    void repair(Vehicle vehicle);
+    void repair(Vehicles vehicle);
 
-    default boolean detectAndRepair(Vehicle vehicle) {
-        detectBreaking(vehicle);
+    default boolean detectAndRepair(Vehicles vehicle) {
         if (isBroken(vehicle)) {
             repair(vehicle);
+            System.out.println("was repair: " + vehicle);
             return true;
         }
 
         return false;
     }
 
-    boolean isBroken(Vehicle vehicle);
+    boolean isBroken(Vehicles vehicle);
 }

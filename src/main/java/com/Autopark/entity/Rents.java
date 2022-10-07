@@ -13,6 +13,7 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class Rents {
     @ID(name = "carId")
     private Long carId;

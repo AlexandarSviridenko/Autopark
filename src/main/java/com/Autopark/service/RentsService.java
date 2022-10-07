@@ -1,6 +1,5 @@
 package com.Autopark.service;
 
-import com.Autopark.Auto.Rent;
 import com.Autopark.entity.Rents;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import com.Autopark.infrastructure.core.annotations.InitMethod;

@@ -1,5 +1,6 @@
-package com.Autopark.infrastructure.configurators.impl;
+package com.Autopark.infrastructure.configuratots.impl;
 
+import com.Autopark.infrastructure.configuratots.ObjectConfigurator;
 import com.Autopark.infrastructure.core.Context;
 import com.Autopark.infrastructure.core.annotations.Autowired;
 import lombok.SneakyThrows;
