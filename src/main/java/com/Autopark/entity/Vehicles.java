@@ -31,4 +31,12 @@ public class Vehicles {
     private String color;
     @Column(name = "engineType")
     private String engineType;
+    @Column(name = "engineTaxCoefficient")
+    private Integer engineTaxCoefficient;
+    @Column(name ="engineCapacity")
+    private Integer engineCapacity;
+    @Column(name = "fuelConsumptionPer100")
+    private Integer fuelConsumptionPer100;
+    @Column(name = "fuelTankCapacity")
+    private  Integer fuelTankCapacity;
 }
