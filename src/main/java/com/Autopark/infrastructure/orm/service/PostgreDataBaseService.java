@@ -205,6 +205,7 @@ public class PostgreDataBaseService {
         return list;
     }
 
+
     @SneakyThrows
     private <T> T makeObject(ResultSet resultSet, Class<T> clazz) {
         Method method;
