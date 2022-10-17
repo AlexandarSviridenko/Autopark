@@ -11,8 +11,6 @@ import com.Autopark.parser.ParserVehicleFromDB;
 import com.Autopark.parser.ParserVehicleInterface;
 import com.Autopark.repairAuto.Fixer;
 import com.Autopark.repairAuto.MechanicService;
-import com.Autopark.service.TypesService;
-import com.Autopark.service.VehicleService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,14 +22,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.Autopark.Main.initInterfaceToImplementation;
+@WebServlet("/viewCars")
+public class ViewCarsServlet extends HttpServlet {
 
-@WebServlet("/viewTypes")
-public class ViewCarTypesServlet extends HttpServlet {
     private DtoService vehicleTypeService;
 
     @Override
-    public void init() throws ServletException{
+    public void init() throws ServletException {
         super.init();
         Map<Class<?>, Class<?>> interfaceToImplementation = initInterfaceToImplementation();
         ApplicationContext context = new ApplicationContext("com.Autopark", interfaceToImplementation);
@@ -39,10 +36,10 @@ public class ViewCarTypesServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.setAttribute("types", vehicleTypeService.getTypes());
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/jsp/viewTypesJSP.jsp");
-        dispatcher.forward(req, res);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("cars", vehicleTypeService.getVehicles());
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/jsp/viewCarsJSP.jsp");
+        dispatcher.forward(request, response);
     }
 
     private Map<Class<?>, Class<?>> initInterfaceToImplementation() {

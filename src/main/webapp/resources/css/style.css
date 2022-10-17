@@ -14,3 +14,13 @@ body {
     margin-top: auto;
     margin-bottom: auto;
 }
+table {
+    width: 33%;
+    border-collapse: collapse;
+    border: 3px solid grey;
+}
+
+th, td {
+    width: 33%;
+    border: 1px solid grey;
+}

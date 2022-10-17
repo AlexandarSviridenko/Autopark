@@ -18,4 +18,10 @@ public class AutoCheck {
         List<Vehicles> vehicle = manager.getAll(Vehicles.class);
         context.getObject(Workroom.class).checkAllVehicles(vehicle);
     }
+
+    public void repairVehiclesInWorkroom(Context context) {
+        EntityManager manager = context.getObject(EntityManager.class);
+        List<Vehicles> vehicles = manager.getAll(Vehicles.class);
+        context.getObject(Workroom.class).repairAllVehicles(vehicles);
+    }
 }

@@ -11,8 +11,6 @@ import com.Autopark.parser.ParserVehicleFromDB;
 import com.Autopark.parser.ParserVehicleInterface;
 import com.Autopark.repairAuto.Fixer;
 import com.Autopark.repairAuto.MechanicService;
-import com.Autopark.service.TypesService;
-import com.Autopark.service.VehicleService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,15 +21,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static com.Autopark.Main.initInterfaceToImplementation;
+@WebServlet("/info")
+public class ViewInfoServlet extends HttpServlet {
 
-@WebServlet("/viewTypes")
-public class ViewCarTypesServlet extends HttpServlet {
     private DtoService vehicleTypeService;
 
     @Override
-    public void init() throws ServletException{
+    public void init() throws ServletException {
         super.init();
         Map<Class<?>, Class<?>> interfaceToImplementation = initInterfaceToImplementation();
         ApplicationContext context = new ApplicationContext("com.Autopark", interfaceToImplementation);
@@ -39,10 +37,24 @@ public class ViewCarTypesServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.setAttribute("types", vehicleTypeService.getTypes());
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/jsp/viewTypesJSP.jsp");
-        dispatcher.forward(req, res);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long id;
+        String idString = request.getParameter("id");
+
+        if (!idString.isEmpty()) {
+            id = Long.parseLong(request.getParameter("id"));
+        } else {
+            throw new IllegalArgumentException("Parameter \"id\" is not set");
+        }
+
+        request.setAttribute("cars", vehicleTypeService
+                .getVehicles()
+                .stream()
+                .filter(vehicleDto -> id == vehicleDto.getId())
+                .collect(Collectors.toList()));
+        request.setAttribute("rents", vehicleTypeService.getRents(id));
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/jsp/viewCarInfoJSP.jsp");
+        dispatcher.forward(request, response);
     }
 
     private Map<Class<?>, Class<?>> initInterfaceToImplementation() {

@@ -20,4 +20,9 @@ public class Orders {
     private String defect;
     @Column(name = "breakingAmount")
     private Integer breakingAmount;
+    public Orders(Long vehicleId, String orderLine) {
+        this.vehicleId = vehicleId;
+        this.defect = defect;
+        this.breakingAmount = breakingAmount;
+    }
 }

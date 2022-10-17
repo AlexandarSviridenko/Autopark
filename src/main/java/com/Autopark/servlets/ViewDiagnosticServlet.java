@@ -1,5 +1,6 @@
 package com.Autopark.servlets;
 
+import com.Autopark.Auto.AutoCheck;
 import com.Autopark.dtoFacade.DtoService;
 import com.Autopark.infrastructure.configuratots.ObjectConfigurator;
 import com.Autopark.infrastructure.configuratots.impl.AutowiredObjectConfigurator;
@@ -11,8 +12,6 @@ import com.Autopark.parser.ParserVehicleFromDB;
 import com.Autopark.parser.ParserVehicleInterface;
 import com.Autopark.repairAuto.Fixer;
 import com.Autopark.repairAuto.MechanicService;
-import com.Autopark.service.TypesService;
-import com.Autopark.service.VehicleService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,25 +23,35 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.Autopark.Main.initInterfaceToImplementation;
+@WebServlet("/viewDiagnostic")
+public class ViewDiagnosticServlet extends HttpServlet {
 
-@WebServlet("/viewTypes")
-public class ViewCarTypesServlet extends HttpServlet {
     private DtoService vehicleTypeService;
+
+    private AutoCheck autoCheck;
+
+    private ApplicationContext context;
 
     @Override
     public void init() throws ServletException{
         super.init();
         Map<Class<?>, Class<?>> interfaceToImplementation = initInterfaceToImplementation();
-        ApplicationContext context = new ApplicationContext("com.Autopark", interfaceToImplementation);
+        context = new ApplicationContext("com.Autopark", interfaceToImplementation);
         vehicleTypeService = context.getObject(DtoService.class);
+        autoCheck = context.getObject(AutoCheck.class);
+        autoCheck.vehiclesFromDBToWorkroom(context);
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.setAttribute("types", vehicleTypeService.getTypes());
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/jsp/viewTypesJSP.jsp");
-        dispatcher.forward(req, res);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("cars", vehicleTypeService.getVehicles());
+        request.setAttribute("ordersBeforeRepairing", vehicleTypeService.getOrders());
+
+        autoCheck.repairVehiclesInWorkroom(context);
+
+        request.setAttribute("ordersAfterRepairing", vehicleTypeService.getOrders());
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/jsp/viewDiagnosticJSP.jsp");
+        dispatcher.forward(request, response);
     }
 
     private Map<Class<?>, Class<?>> initInterfaceToImplementation() {

@@ -32,11 +32,11 @@ public class Vehicles {
     @Column(name = "engineType")
     private String engineType;
     @Column(name = "engineTaxCoefficient")
-    private Integer engineTaxCoefficient;
+    private Double engineTaxCoefficient;
     @Column(name ="engineCapacity")
-    private Integer engineCapacity;
+    private Double engineCapacity;
     @Column(name = "fuelConsumptionPer100")
-    private Integer fuelConsumptionPer100;
+    private Double fuelConsumptionPer100;
     @Column(name = "fuelTankCapacity")
-    private  Integer fuelTankCapacity;
+    private Double fuelTankCapacity;
 }
