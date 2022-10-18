@@ -24,7 +24,7 @@ import java.util.Map;
 
 @WebServlet("/viewCars")
 public class ViewCarsServlet extends HttpServlet {
-
+    @Autowired
     private DtoService vehicleTypeService;
 
     @Override

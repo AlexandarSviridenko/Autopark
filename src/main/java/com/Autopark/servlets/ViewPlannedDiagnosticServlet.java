@@ -25,11 +25,11 @@ import java.util.Map;
 
 @WebServlet("/viewPlannedDiagnostic")
 public class ViewPlannedDiagnosticServlet extends HttpServlet {
-
+    @Autowired
     private DtoService vehicleTypeService;
-
+    @Autowired
     private ApplicationContext context;
-
+    @Autowired
     private AutoCheck autoCheck;
 
     @Override

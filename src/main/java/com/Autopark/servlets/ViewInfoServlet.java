@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @WebServlet("/info")
 public class ViewInfoServlet extends HttpServlet {
-
+    @Autowired
     private DtoService vehicleTypeService;
 
     @Override

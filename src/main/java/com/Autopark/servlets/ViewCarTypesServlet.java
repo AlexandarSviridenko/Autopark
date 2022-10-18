@@ -28,10 +28,11 @@ import static com.Autopark.Main.initInterfaceToImplementation;
 
 @WebServlet("/viewTypes")
 public class ViewCarTypesServlet extends HttpServlet {
+    @Autowired
     private DtoService vehicleTypeService;
 
     @Override
-    public void init() throws ServletException{
+    public void init() throws ServletException {
         super.init();
         Map<Class<?>, Class<?>> interfaceToImplementation = initInterfaceToImplementation();
         ApplicationContext context = new ApplicationContext("com.Autopark", interfaceToImplementation);
