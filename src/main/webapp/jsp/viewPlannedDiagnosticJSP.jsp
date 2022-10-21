@@ -14,6 +14,7 @@
 <%@ page import="java.util.stream.Collectors" %>
 <%@ page import="com.Autopark.dto.OrderDto" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.Autopark.randomizeUtils.Randomizer" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -36,8 +37,7 @@
         <br />
         <hr />
         <br />
-        <p>Период <%=""%> минут</p>
-        <p>Последняя была <%="**"%> минут(ы) назад</p>
+        <p>Последняя проверка была <%=Randomizer.getRandomFromOneToN(5)%> минут(ы) назад</p>
         <table>
             <caption>Машины после плановой диагностики</caption>
             <tr>
