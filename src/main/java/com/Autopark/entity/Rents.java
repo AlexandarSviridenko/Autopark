@@ -5,7 +5,7 @@ import com.Autopark.infrastructure.orm.annotations.ID;
 import com.Autopark.infrastructure.orm.annotations.Table;
 import lombok.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Table(name = "rents")
 @Builder

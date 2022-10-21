@@ -2,7 +2,6 @@ package com.Autopark;
 
 import com.Autopark.Auto.AutoCheck;
 import com.Autopark.Auto.VehicleCollection;
-import com.Autopark.dtoFacade.DtoService;
 import com.Autopark.infrastructure.configuratots.impl.AutowiredObjectConfigurator;
 import com.Autopark.infrastructure.configuratots.ObjectConfigurator;
 import com.Autopark.infrastructure.core.impl.ApplicationContext;
@@ -32,9 +31,6 @@ public class Main {
         AutoCheck autoCheck = context.getObject(AutoCheck.class);
         autoCheck.vehiclesFromDBToWorkroom(context);
 
-        DtoService dtoService = context.getObject(DtoService.class);
-        System.out.println(dtoService.getVehicles());
-
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
@@ -42,7 +38,7 @@ public class Main {
         }
     }
 
-    public static Map<Class<?>, Class<?>> initInterfaceToImplementation() {
+    private static Map<Class<?>, Class<?>> initInterfaceToImplementation() {
         Map<Class<?>, Class<?>> map = new HashMap<>();
         map.put(ObjectConfigurator.class, AutowiredObjectConfigurator.class);
         map.put(EntityManager.class, PostgreDataBaseService.class);

@@ -11,8 +11,6 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class Types {
     @ID
     private Long id;
