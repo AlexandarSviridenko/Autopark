@@ -64,7 +64,7 @@
                 <td><%=dto.getMileage()%></td>
                 <td><%=dto.getIncome()%></td>
                 <td><%=dto.getTax()%></td>
-                <td><%=(double) Math.round ((dto.getIncome() - dto.getTax()) * 100 / 100 )%></td>
+                <td><%=String.format("%.2f", dto.getIncome() - dto.getTax())%></td>
             </tr>
             <%}%>
         </table>
