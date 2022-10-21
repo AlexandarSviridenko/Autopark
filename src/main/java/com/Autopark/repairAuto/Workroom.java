@@ -27,4 +27,8 @@ public class Workroom {
         System.out.println("Serviceable vehicles:");
         stream.filter(v -> mechanic.isBroken(v)).forEach(System.out::println);
     }
+
+    public void repairAllVehicles(List<Vehicles> vehicles) {
+        vehicles.stream().forEach(vehicle -> mechanic.repair(vehicle));
+    }
 }
